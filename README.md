@@ -13,7 +13,6 @@ A smart civic tech platform that allows users to report local issues (like potho
 - 🔒 **Admin Login** for Dashboard
 - 🗺️ **Map View Dashboard** with Leaflet.js
 - 🧪 **Clustering by Type/Area**
-- ✅ **Thank-You Page** after report submission
 - 📱 **Responsive UI** (mobile-friendly)
 
 ---
