@@ -15,11 +15,6 @@ A smart civic tech platform that allows users to report local issues (like potho
 - 🧪 **Clustering by Type/Area**
 - 📱 **Responsive UI** (mobile-friendly)
 
----
-
-## 🚀 Demo
-
-> Coming soon – you can test it locally with the steps below!
 
 ---
 
