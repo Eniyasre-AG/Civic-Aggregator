@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Issue Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #map {
+      height: 500px;
+      width: 100%;
+      border: 2px solid #444;
+      border-radius: 8px;
+    }
+    .popup-img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      margin-top: 5px;
+    }
+    a {
+      display: block;
+      text-align: center;
+      margin-bottom: 15px;
+      color: #2980b9;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Civic Issue Dashboard</h1>
+  <a href="/logout">Logout</a>
+  <div id="map"></div>
+
+  <!-- Leaflet JS + Clustering -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+  <script>
+    const issues = {{ issues | tojson | safe }};
+    const map = L.map('map').setView([20.59, 78.96], 5); // India
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const markers = L.markerClusterGroup();
+
+    issues.forEach(issue => {
+      if (issue.latitude && issue.longitude) {
+        const imagePath = issue.image_path.startsWith("app/uploads/")
+          ? "/app/uploads/" + issue.image_path.split("app/uploads/")[1]
+          : "/" + issue.image_path;
+
+        const popupContent = `
+          <strong>${issue.tag}</strong><br>
+          ${issue.description}<br>
+          <img class="popup-img" src="${imagePath}" />
+        `;
+
+        const marker = L.marker([issue.latitude, issue.longitude])
+          .bindPopup(popupContent);
+
+        markers.addLayer(marker);
+      }
+    });
+
+    map.addLayer(markers);
+  </script>
+
+</body>
+</html>
