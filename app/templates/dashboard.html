@@ -51,8 +51,11 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
+  <script id="issues-data" type="application/json">
+    {{ issues | tojson | safe }}
+  </script>
   <script>
-    const issues = {{ issues | tojson | safe }};
+    const issues = JSON.parse(document.getElementById('issues-data').textContent);
     const map = L.map('map').setView([20.59, 78.96], 5); // India
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
